@@ -5,6 +5,8 @@
 ARG GO_VER
 ARG ALPINE_VER
 FROM golang:${GO_VER}-alpine${ALPINE_VER} as golang
+RUN echo -e http://mirrors.tuna.tsinghua.edu.cn/alpine/v3.11/main/ > /etc/apk/repositories
+
 
 RUN apk add --no-cache \
 	bash \
@@ -21,6 +23,9 @@ ARG GO_TAGS
 RUN make configtxgen configtxlator cryptogen peer discover osnadmin idemixgen GO_TAGS=${GO_TAGS}
 
 FROM golang:${GO_VER}-alpine
+RUN echo -e http://mirrors.tuna.tsinghua.edu.cn/alpine/v3.11/main/ > /etc/apk/repositories
+
+
 # git is required to support `go list -m`
 RUN apk add --no-cache \
 	bash \
